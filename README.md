@@ -12,7 +12,7 @@ eventually(callback(next()), [timeout], [interval]) -> Promise
 
 If it doesn't work within `timeout` milliseconds, it's considered a failure.
 
-If a test fails and `timeout` has not ellapsed yet, it will wait `interval` milliseconds and try again.
+If a test fails and `timeout` has not elapsed yet, it will wait `interval` milliseconds and try again.
 
 Returns a promise, which Mocha will happily consume.
 
