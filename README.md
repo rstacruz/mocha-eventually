@@ -5,8 +5,10 @@ Retries a test until it eventually works.
 [![Status](https://travis-ci.org/rstacruz/mocha-eventually.svg?branch=master)](https://travis-ci.org/rstacruz/mocha-eventually "See test builds")
 
 ```js
-eventually(function (next), [timeout], [interval]) -> Promise
+eventually(callback(next()), [timeout], [interval]) -> Promise
 ```
+
+`callback` is a function. If it's async, it should either consume the `next()` parameter, or return a promise.
 
 If it doesn't work within `timeout` milliseconds, it's considered a failure.
 
