@@ -31,10 +31,26 @@ function eventually (fn, timeout, interval) {
     }
 
     function invoke () {
-      eventually.debug('invocation #' + iteration)
+      eventually.debug(
+        'invocation #' + iteration +
+        ' (' + (now() - start) + 'ms elapsed)')
+
       waitingFor = ++iteration
       if (fn.length === 0) {
-        try { fn(); next() } catch (err) { next(err) }
+        try {
+          var result = fn()
+          if (result.then) {
+            result.then(function () {
+              next()
+            }, function (err) {
+              throwFail(err)
+            })
+          } else {
+            next()
+          }
+        } catch (err) {
+          next(err)
+        }
       } else {
         try { fn(next) } catch (err) { next(err) }
       }
@@ -48,16 +64,20 @@ function eventually (fn, timeout, interval) {
       }
       waitingFor = null
       if (err) {
-        var elapsed = now() - start
-        if (elapsed > timeout) {
-          restore()
-          fail(err)
-        } else {
-          setTimeout(invoke, interval || 20)
-        }
+        throwFail(err)
       } else {
         restore()
         ok()
+      }
+    }
+
+    function throwFail (err) {
+      var elapsed = now() - start
+      if (elapsed > timeout) {
+        restore()
+        fail(err)
+      } else {
+        setTimeout(invoke, interval || 20)
       }
     }
 
