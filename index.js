@@ -1,10 +1,9 @@
 var now = Date.now || function () { return new Date().getDate() }
-var debug
 
 try {
-  debug = require('debug')('mocha-eventually')
+  eventually.debug = require('debug')('mocha-eventually')
 } catch (e) {
-  debug = function () {}
+  eventually.debug = function () {}
 }
 
 function eventually (fn, timeout, interval) {
@@ -32,7 +31,7 @@ function eventually (fn, timeout, interval) {
     }
 
     function invoke () {
-      debug('invocation #' + iteration)
+      eventually.debug('invocation #' + iteration)
       waitingFor = ++iteration
       if (fn.length === 0) {
         try { fn(); next() } catch (err) { next(err) }
@@ -71,4 +70,3 @@ eventually.multipleDoneError = function () {
 }
 
 module.exports = eventually
-
