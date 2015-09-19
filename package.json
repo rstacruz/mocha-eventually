@@ -1,0 +1,15 @@
+{
+  "name": "mocha-eventually",
+  "author": "Rico Sta. Cruz <rico@ricostacruz.com>",
+  "version": "1.0.0",
+  "description": "Retries a Mocha test until it works",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "expect": "^1.10.0",
+    "mocha": "^2.3.2"
+  }
+}
