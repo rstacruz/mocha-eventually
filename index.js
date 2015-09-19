@@ -7,10 +7,11 @@ try {
   debug = function () {}
 }
 
-module.exports = function eventually (fn, timeout, interval) {
+function eventually (fn, timeout, interval) {
   var start = now()
   var iteration = 0
   var waitingFor
+  var restored
   var listeners = process._events.uncaughtException
 
   if (timeout == null) timeout = 2000
@@ -25,6 +26,8 @@ module.exports = function eventually (fn, timeout, interval) {
     }
 
     function restore () {
+      if (restored) return
+      restored = 1
       process._events.uncaughtException = listeners
     }
 
@@ -40,7 +43,8 @@ module.exports = function eventually (fn, timeout, interval) {
 
     function next (err) {
       if (waitingFor !== iteration) {
-        if (!err) err = new Error('eventually(): done() called multiple times')
+        restore()
+        eventually.multipleDoneError()
         return
       }
       waitingFor = null
@@ -61,3 +65,10 @@ module.exports = function eventually (fn, timeout, interval) {
     invoke()
   })
 }
+
+eventually.multipleDoneError = function () {
+  throw new Error('eventually(): done() called multiple times')
+}
+
+module.exports = eventually
+

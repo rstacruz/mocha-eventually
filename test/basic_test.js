@@ -18,7 +18,7 @@ describe('eventually()', function () {
     }, 1000, 0)
   })
 
-  it('works inside loops', function () {
+  it('works inside callbacks', function () {
     return eventually(function (next) {
       setTimeout(function () {
         expect(++n).toEqual(5)
@@ -27,8 +27,25 @@ describe('eventually()', function () {
     }, 1000, 0)
   })
 
-  it('catches multiple next()s', function () {
+  it('catches next()', function () {
     return eventually(function (next) {
+      setTimeout(function () {
+        expect(++n).toEqual(5)
+        next()
+      })
+    }, 1000, 0)
+  })
+
+  it('catches multiple next()s', function (next) {
+    var spy = expect.spyOn(eventually, 'multipleDoneError')
+
+    setTimeout(function () {
+      expect(spy).toHaveBeenCalled()
+      spy.restore()
+      next()
+    }, 100)
+
+    eventually(function (next) {
       setTimeout(function () {
         next()
         next()

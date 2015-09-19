@@ -19,10 +19,7 @@ var eventually = require('mocha-eventually')
 
 it('eventually works', function () {
   return eventually(function (next) {
-    fs.readFile('output.txt', 'utf-8', function (err, data) {
-      if (err) return next(err)
-      expect(data).toEqual('hello')
-    })
+    assert(Math.random() > 0.9)
   }, 2000)
 })
 ```
