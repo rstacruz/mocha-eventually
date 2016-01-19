@@ -22,6 +22,7 @@ var eventually = require('mocha-eventually')
 it('eventually works', function () {
   return eventually(function (next) {
     assert(Math.random() > 0.9)
+    next()
   }, 2000)
 })
 ```
