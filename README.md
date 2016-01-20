@@ -28,6 +28,8 @@ it('eventually works', function () {
 })
 ```
 
+### Async via callback example
+
 ```js
 var eventually = require('mocha-eventually')
 var myAsyncAction // function that accepts callback
