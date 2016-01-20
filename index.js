@@ -39,7 +39,7 @@ function eventually (fn, timeout, interval) {
       if (fn.length === 0) {
         try {
           var result = fn()
-          if (result.then) {
+          if (result && result.then) {
             result.then(function () {
               next()
             }, function (err) {

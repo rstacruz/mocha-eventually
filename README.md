@@ -16,13 +16,39 @@ If a test fails and `timeout` has not elapsed yet, it will wait `interval` milli
 
 Returns a promise, which Mocha will happily consume.
 
+## Examples
+
 ```js
 var eventually = require('mocha-eventually')
 
 it('eventually works', function () {
-  return eventually(function (next) {
+  return eventually(function () {
     assert(Math.random() > 0.9)
-    next()
+  }, 2000)
+})
+```
+
+```js
+var eventually = require('mocha-eventually')
+var myAsyncAction // function that accepts callback
+
+it('eventually works for asynchronous action', function () {
+  return eventually(function (next) {
+    myAsyncAction(function(err, result) {
+      assert(err === null)
+      next()
+    })
+  }, 2000)
+})
+```
+
+```js
+var eventually = require('mocha-eventually')
+var myPromised // function that returns promise
+
+it('eventually works for asynchronous action', function () {
+  return eventually(function () {
+    return myAsyncAction("someparam")
   }, 2000)
 })
 ```

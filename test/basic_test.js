@@ -46,6 +46,14 @@ describe('eventually()', function () {
       })
     }, 1000, 0)
   })
+
+  it('works when next is not passed', function () {
+    return eventually(function () { // no next parameter here
+      setTimeout(function () {
+        expect(++n).toEqual(5)
+      })
+    }, 1000, 0)
+  })
 })
 
 describe('promises', function () {
