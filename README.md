@@ -27,6 +27,10 @@ it('eventually works', function () {
 })
 ```
 
+## Browser support
+
+This extension only works in Node.js environment and can not be used when [running Mocha in a browser](https://mochajs.org#running-mocha-in-the-browser).
+
 <br>
 
 ## Thanks
